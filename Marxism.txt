@@ -1,7 +1,8 @@
-50
+53
 Revisionism_(Marxism)
 Marxism%E2%80%93Leninism
 Marxist_criminology
+Orthodox_Marxist
 Marxism%E2%80%93Leninism
 Marxist_geography
 Karl_Marx
@@ -23,6 +24,7 @@ Freudo-Marxism
 Capitalist_mode_of_production_(Marxist_theory)
 Austro-Marxism
 Marx%E2%80%93Engels%E2%80%93Lenin_Institute
+Revisionism_(Marxism)
 Capitalist_mode_of_production_(Marxist_theory)
 Vladimir_Lenin
 Karl_Marx
@@ -46,6 +48,7 @@ Commodity_(Marxism)
 Western_Marxist
 Marx%27s_theory_of_alienation
 Marxist%E2%80%93Leninist
+Karl_Marx
 Karl_Marx
 Capitalist_mode_of_production_(Marxist_theory)
 Marxist_archaeology

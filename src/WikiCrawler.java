@@ -147,9 +147,16 @@ public class WikiCrawler {
     }
 
     private boolean isRelevantPage(String url) {
-        if (this.visitedVertices.contains(url) || this.disallowedUrls.contains(url) || url.contains("#") || url.contains(":")) {
+        boolean isDuplicate =
+                this.visitedVertices.contains(url) || this.queue.contains(new Vertex(url)) || this.graph.getVertices().contains(new Vertex(url));
+        boolean isInRobotsTxt = this.disallowedUrls.contains(url);
+        boolean isFragment = url.contains("#");
+        boolean isSpecialPage = url.contains(":");
+
+        if (isDuplicate || isInRobotsTxt || isFragment || isSpecialPage) {
             return false;
         }
+
         for (String keyword : this.keywords) {
             if (url.contains(keyword)) {
                 return true;
@@ -178,7 +185,7 @@ public class WikiCrawler {
     public static void main(String[] args) throws Exception {
         String[] keywords = {"Marx", "Lenin"};
         WikiCrawler crawler = new WikiCrawler(
-                "/wiki/Marxism", keywords, 50, "Marxism.txt");
+                "/wiki/Marxism", keywords, 100, "Marxism.txt");
 
          crawler.crawl();
     }
