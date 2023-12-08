@@ -47,6 +47,14 @@ public class WikiCrawler {
 
         this.graph.addVertex(root);
         this.queue.enqueue(root);
+
+        try {
+            this.fetchDisallowedUrls();
+            this.crawl();
+        } catch (Exception e) {
+            System.out.println("Could not fetch disallowed URLs from robots.txt");
+            Logger.log(e.getMessage());
+        }
     }
 
 
@@ -83,7 +91,6 @@ public class WikiCrawler {
      * writes the graph to the file `this.fileName`
      */
     void crawl() throws Exception {
-        this.fetchDisallowedUrls();
 
         while (!this.queue.isEmpty() && this.graph.getVertices().size() < this.max) {
             Vertex v = this.queue.dequeue();
@@ -93,7 +100,7 @@ public class WikiCrawler {
             this.visitedVertices.add(v.getUrl());
 
             try {
-                String html = fetchHTML(v.getUrl());
+                String html = fetchHTML("/wiki/" + v.getUrl());
                 List<String> outgoingLinks = extractLinks(html);
 
                 List<String> filteredLinks = outgoingLinks.stream().filter(this::isRelevantPage).toList();
@@ -148,7 +155,7 @@ public class WikiCrawler {
 
     private boolean isRelevantPage(String url) {
         boolean isDuplicate =
-                this.visitedVertices.contains(url) || this.queue.contains(new Vertex(url)) || this.graph.getVertices().contains(new Vertex(url));
+                this.visitedVertices.contains(url) || this.graph.getVertices().contains(new Vertex(url));
         boolean isInRobotsTxt = this.disallowedUrls.contains(url);
         boolean isFragment = url.contains("#");
         boolean isSpecialPage = url.contains(":");
@@ -183,10 +190,13 @@ public class WikiCrawler {
     }
 
     public static void main(String[] args) throws Exception {
-        String[] keywords = {"Marx", "Lenin"};
+        String[] keywords = {"Communism", "Capitalism"};
         WikiCrawler crawler = new WikiCrawler(
-                "/wiki/Marxism", keywords, 100, "Marxism.txt");
+                "/wiki/Marxism", keywords, 50, "Marxism.txt");
 
-         crawler.crawl();
+        String html = crawler.fetchHTML("/wiki/Marxism");
+        List<String> links = crawler.extractLinks(html);
+        List<String> filteredLinks = links.stream().filter(crawler::isRelevantPage).toList();
+        System.out.println(filteredLinks.size() + ", " + filteredLinks);
     }
 }
