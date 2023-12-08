@@ -1,0 +1,3 @@
+/wiki/Quantum_computer
+/wiki/Multithreading_(computer_architecture)
+/wiki/Human%E2%80%93computer_interaction
