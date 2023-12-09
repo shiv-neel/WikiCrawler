@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class Graph {
 
@@ -40,5 +41,20 @@ public class Graph {
 
     public List<Vertex> getVertices() {
         return new ArrayList<>(this.graph.keySet());
+    }
+
+    public void removeEdgesToNonVisitedVertices(Set<String> visitedSet) {
+        for (Vertex v : this.graph.keySet()) {
+            ArrayList<Vertex> neighbors = this.graph.get(v);
+            ArrayList<Vertex> toRemove = new ArrayList<>();
+            for (Vertex neighbor : neighbors) {
+                if (!visitedSet.contains(neighbor.getUrl())) {
+                    toRemove.add(neighbor);
+                }
+            }
+            for (Vertex neighbor : toRemove) {
+                neighbors.remove(neighbor);
+            }
+        }
     }
 }
